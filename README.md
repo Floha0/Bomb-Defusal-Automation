@@ -1,3 +1,2 @@
-# Bomb-Defusal-Automation
-# Keep Talking And Nobody Explodes
+# Keep Talking And Nobody Explodes - Bomb Solver
 Automaticly solves bombs with some infos 
