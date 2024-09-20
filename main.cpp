@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include<list>
 #include <map>
+
 
 using namespace std;
 
@@ -44,12 +44,14 @@ public:
     }
 };
 
-vector<vector<int>> Incrementor(int row, int col, Map& map);
+vector<vector<int>> Incrementor(int row, int col, vector<Map>& copiedMaps);
 
 void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
     bool solved = false;
 
     vector<vector<int>> playerPoses = {{pRow, pCol}};
+
+    vector<Map> copiedMaps;
 
     for (int i = 0; i < map.map.size(); i++) {
         for (int j = 0; j < map.map[i].size(); j++) {
@@ -64,15 +66,12 @@ void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
 
         cout << playerPoses.size() << endl;
 
-        // if (playerPoses.size() <= 0) {
-        //     cout << "Labyrinth solved!" << endl;
-        //     break;
-        // }
         vector<vector<int>> newPlayerPoses;
 
         for (int i = 0; i < playerPoses.size(); i++) {
 
-            vector<vector<int>> incremented = Incrementor(playerPoses[i][0], playerPoses[i][1], map);
+            vector<vector<int>> incremented = Incrementor(
+                playerPoses[i][0], playerPoses[i][1], copiedMaps);
 
             for (int j = 0; j < incremented.size(); j++) {
                 bool contains = false;
@@ -121,64 +120,84 @@ void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
     }
 }
 
-vector<vector<int>> Incrementor(int row, int col, Map& map) {
+vector<vector<int>> Incrementor(int row, int col, vector<Map>& copiedMaps) {
     vector<vector<int>> list;
 
-    map.map[row][col] = 0;
+    for (int i = 0; i < copiedMaps.size(); i++) {
+        Map map = copiedMaps[i];
 
-    // Up
-    if (map.map[row - 1][col] == 0) {
-        map.map[row - 1][col] =  map.map[row - 1][col] + 5;
-        map.map[row - 2][col] = 2;
 
-        std::vector<int> newList;
-        newList.push_back(row - 2);
-        newList.push_back(col);
+        map.map[row][col] = 0;
 
-        list.push_back(newList);
+        // Up
+        if (map.map[row - 1][col] == 0) {
+            if(map.map[row - 2][col] == 3) {
+                cout << "Solved" << endl;
+            }
+
+            map.map[row - 1][col] =  map.map[row - 1][col] + 5;
+            map.map[row - 2][col] = 2;
+
+            std::vector<int> newList;
+            newList.push_back(row - 2);
+            newList.push_back(col);
+
+            list.push_back(newList);
+        }
+
+        // Down
+        if (map.map[row + 1][col] == 0) {
+            if(map.map[row + 2][col] == 3) {
+                cout << "Solved" << endl;
+            }
+
+            map.map[row + 1][col] =  map.map[row + 1][col] + 5;
+            map.map[row + 2][col] = 2;
+
+            std::vector<int> newList;
+            newList.push_back(row + 2);
+            newList.push_back(col);
+
+            list.push_back(newList);
+        }
+
+        // Right
+        if (map.map[row][col + 1] == 0) {
+            if(map.map[row][col + 2] == 3) {
+                cout << "Solved" << endl;
+            }
+
+            map.map[row][col + 1] =  map.map[row][col + 1] + 5;
+            map.map[row][col + 2] = 2;
+
+            std::vector<int> newList;
+            newList.push_back(row);
+            newList.push_back(col + 2);
+
+            list.push_back(newList);
+        }
+
+        // Left
+        if (map.map[row][col - 1] == 0) {
+            if(map.map[row][col - 2] == 3) {
+                cout << "Solved" << endl;
+            }
+
+            map.map[row][col - 1] =  map.map[row][col - 1] + 5;
+            map.map[row][col - 2] = 2;
+
+            std::vector<int> newList;
+            newList.push_back(row);
+            newList.push_back(col - 2);
+
+            list.push_back(newList);
+        }
     }
-
-    // Down
-    if (map.map[row + 1][col] == 0) {
-        map.map[row + 1][col] =  map.map[row + 1][col] + 5;
-        map.map[row + 2][col] = 2;
-
-        std::vector<int> newList;
-        newList.push_back(row + 2);
-        newList.push_back(col);
-
-        list.push_back(newList);
-    }
-
-    // Right
-    if (map.map[row][col + 1] == 0) {
-        map.map[row][col + 1] =  map.map[row][col + 1] + 5;
-        map.map[row][col + 2] = 2;
-
-        std::vector<int> newList;
-        newList.push_back(row);
-        newList.push_back(col + 2);
-
-        list.push_back(newList);
-    }
-
-    // Left
-    if (map.map[row][col - 1] == 0) {
-        map.map[row][col - 1] =  map.map[row][col - 1] + 5;
-        map.map[row][col - 2] = 2;
-
-        std::vector<int> newList;
-        newList.push_back(row);
-        newList.push_back(col - 2);
-
-        list.push_back(newList);
-    }
-
     return list;
 }
 
 
-void labyrinth(int pRow, int pCol, int tRow, int tCol) {
+void maze(int pRow, int pCol, int tRow, int tCol) {
     Map map1 = Map(pRow,pCol,tRow,tCol);
 
 
@@ -186,6 +205,6 @@ void labyrinth(int pRow, int pCol, int tRow, int tCol) {
 }
 
 int main() {
-    labyrinth(1,1,1,2);
+    maze(1,1,1,2);
     return 0;
 }
