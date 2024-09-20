@@ -51,30 +51,53 @@ void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
 
     vector<vector<int>> playerPoses = {{pRow, pCol}};
 
+    for (int i = 0; i < map.map.size(); i++) {
+        for (int j = 0; j < map.map[i].size(); j++) {
+            cout << map.map[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl << "----------------------" << endl;
+
     int k = 0;
     while (k < 5) {
 
         cout << playerPoses.size() << endl;
 
-        if (playerPoses.size() <= 0) {
-            cout << "Labyrinth solved!" << endl;
-            break;
-        }
-
-        for (int j = 0; j < playerPoses.size(); j++) {
-            cout << playerPoses[j][0] << ' ' << playerPoses[j][1] << endl;
-        }
-
+        // if (playerPoses.size() <= 0) {
+        //     cout << "Labyrinth solved!" << endl;
+        //     break;
+        // }
         vector<vector<int>> newPlayerPoses;
 
         for (int i = 0; i < playerPoses.size(); i++) {
 
-            newPlayerPoses = Incrementor(playerPoses[i][0], playerPoses[i][1], map);
+            vector<vector<int>> incremented = Incrementor(playerPoses[i][0], playerPoses[i][1], map);
 
-            // playerPoses = Incrementor(playerPoses[i][0], playerPoses[i][1], map);
+            for (int j = 0; j < incremented.size(); j++) {
+                bool contains = false;
+                for (int l = 0; l < newPlayerPoses.size(); l++) {
+                    if(newPlayerPoses[l] == incremented[j]) {
+                        contains = true;
+                        break;
+                    }
+                }
 
+                if (!contains) {
+                    newPlayerPoses.push_back(incremented[j]);
+                }
+            }
 
+            cout << playerPoses[i][0] << ' ' << playerPoses[i][1] << endl;
+
+            for (int j = 0; j < incremented.size(); j++) {
+                cout << incremented[j][0] << ' ' << incremented[j][1] << endl;
+            }
+
+            cout << "    0 1 2 3 4 5 6 7 8" << endl;
+            cout << "    * * * * * * * * *" << endl;
             for (int i = 0; i < map.map.size(); i++) {
+                cout << i << " - ";
                 for (int j = 0; j < map.map[i].size(); j++) {
                     cout << map.map[i][j] << " ";
                 }
@@ -89,7 +112,7 @@ void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
             cout << playerPoses[j][0] << ' ' << playerPoses[j][1] << endl;
         }
 
-        cout << "-------------" << endl;
+        cout << "----------------------" << endl;
 
 
 
@@ -106,6 +129,7 @@ vector<vector<int>> Incrementor(int row, int col, Map& map) {
     // Up
     if (map.map[row - 1][col] == 0) {
         map.map[row - 1][col] =  map.map[row - 1][col] + 5;
+        map.map[row - 2][col] = 2;
 
         std::vector<int> newList;
         newList.push_back(row - 2);
@@ -117,6 +141,7 @@ vector<vector<int>> Incrementor(int row, int col, Map& map) {
     // Down
     if (map.map[row + 1][col] == 0) {
         map.map[row + 1][col] =  map.map[row + 1][col] + 5;
+        map.map[row + 2][col] = 2;
 
         std::vector<int> newList;
         newList.push_back(row + 2);
@@ -128,6 +153,7 @@ vector<vector<int>> Incrementor(int row, int col, Map& map) {
     // Right
     if (map.map[row][col + 1] == 0) {
         map.map[row][col + 1] =  map.map[row][col + 1] + 5;
+        map.map[row][col + 2] = 2;
 
         std::vector<int> newList;
         newList.push_back(row);
@@ -139,6 +165,7 @@ vector<vector<int>> Incrementor(int row, int col, Map& map) {
     // Left
     if (map.map[row][col - 1] == 0) {
         map.map[row][col - 1] =  map.map[row][col - 1] + 5;
+        map.map[row][col - 2] = 2;
 
         std::vector<int> newList;
         newList.push_back(row);
