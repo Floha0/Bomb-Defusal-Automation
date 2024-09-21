@@ -3,4 +3,7 @@ project(BombManual)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(BombManual main.cpp)
+add_executable(BombManual main.cpp
+        basicWire.cpp
+        maze.cpp
+        basicWire.h)
