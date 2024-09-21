@@ -5,22 +5,37 @@
 
 using namespace std;
 
-
-// 13 element. 0,2,4,6,8,10,12 duvar
-// 1,3,5,7,9,11 boş
-
+/*
+ * total 13 element
+ * even numbers represent wall
+ * odd numbers represent empty places
+*/
 class Map {
 private:
-    int map1[2][2] = {
-        {1,2},
-        {2,2}
+    int map1[48][2] = {
+        {1, 6},
+        {2,2}, {2,3}, {2,4}, {2,6}, {2,8}, {2,9}, {2,10}, {2,11},
+        {3, 2}, {3, 6},
+        {4, 2}, {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8}, {4, 9}, {4, 10},
+        {5, 2}, {5, 6},
+        {6, 2}, {6, 3}, {6, 4}, {6,8}, {6,9}, {6,10},
+        {7, 2}, {7, 8},
+        {8, 2}, {8, 3}, {8, 4}, {8, 5}, {8, 6}, {8, 7}, {8, 8}, {8, 9}, {8, 10},
+        {9, 6}, {9, 10},
+        {10, 2}, {10, 3}, {10, 4}, {10, 8}, {10, 9}, {10,10},
+        {11, 4}, {11, 8}
     };
+
 
 public:
     vector<vector<int>> map;
+    vector<int> playerPos;
+    vector<int> directions;
 
     Map(int pRow, int pCol, int tRow, int tCol) {
-        int row = 9, col = 9;
+        playerPos = {pRow * 2 - 1, pCol * 2 - 1};
+
+        int row = 13, col = 13;
         map.resize(row);
         for (int i = 0; i < row; i++) {
             map[i].resize(col);
@@ -34,7 +49,7 @@ public:
         }
 
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 48; i++) {
             map[map1[i][0]][map1[i][1]] = 1;
         }
 
@@ -44,7 +59,137 @@ public:
     }
 };
 
-vector<vector<int>> Incrementor(int row, int col, vector<Map>& copiedMaps);
+void AltPaths(int row, int col, vector<Map>& copiedMaps, bool& solved) {
+    /*
+    * Incrementorda yapılacaklar:
+    * yol açıksa player pos'un yerini değiştirip mapi bir listeye kaydetcek
+    * sonda her liste elemanı için for loop ile parametredeki map listesine map eklenecek
+    */
+
+    vector<Map> newMaps;
+
+    for (int i = 0; i < copiedMaps.size(); i++) {
+        Map map = copiedMaps[i];
+
+        row = map.playerPos[0];
+        col = map.playerPos[1];
+
+        map.map[row][col] = 0;
+
+        // Up
+        if (map.map[row - 1][col] == 0) {
+
+            Map newMap = map;
+
+            newMap.directions.push_back(1);
+
+            cout << "Up" << endl;
+
+            if(newMap.map[row - 2][col] == 3) {
+                copiedMaps.clear();
+                copiedMaps.push_back(newMap);
+
+                solved = true;
+
+                break;
+            }
+
+
+            newMap.map[row - 1][col] =  newMap.map[row - 1][col] + 5;
+            newMap.map[row - 2][col] = 2;
+
+            newMap.playerPos = {row - 2, col};
+
+            newMaps.push_back(newMap);
+        }
+
+        // Down
+        if (map.map[row + 1][col] == 0) {
+
+            Map newMap = map;
+
+            newMap.directions.push_back(2);
+
+            cout << "Down" << endl;
+
+            if(map.map[row + 2][col] == 3) {
+                copiedMaps.clear();
+                copiedMaps.push_back(newMap);
+
+                solved = true;
+
+                break;
+            }
+
+
+            newMap.map[row + 1][col] =  newMap.map[row + 1][col] + 5;
+            newMap.map[row + 2][col] = 2;
+
+            newMap.playerPos = {row + 2, col};
+
+            newMaps.push_back(newMap);
+        }
+
+        // Right
+        if (map.map[row][col + 1] == 0) {
+
+            Map newMap = map;
+
+            newMap.directions.push_back(3);
+
+            cout << "Right" << endl;
+
+            if(map.map[row][col + 2] == 3) {
+                copiedMaps.clear();
+                copiedMaps.push_back(newMap);
+
+                solved = true;
+
+                break;
+            }
+
+
+            newMap.map[row][col + 1] =  newMap.map[row][col + 1] + 5;
+            newMap.map[row][col + 2] = 2;
+
+            newMap.playerPos = {row, col + 2};
+
+            newMaps.push_back(newMap);
+        }
+
+        // Left
+        if (map.map[row][col - 1] == 0) {
+
+            Map newMap = map;
+
+            newMap.directions.push_back(4);
+
+            cout << "Left" << endl;
+
+            if(map.map[row][col - 2] == 3) {
+                copiedMaps.clear();
+                copiedMaps.push_back(newMap);
+
+                solved = true;
+
+                break;
+            }
+
+
+            newMap.map[row][col - 1] =  newMap.map[row][col - 1] + 5;
+            newMap.map[row][col - 2] = 2;
+
+            newMap.playerPos = {row, col - 2};
+
+            newMaps.push_back(newMap);
+        }
+    }
+
+    if (!solved) {
+        copiedMaps = newMaps;
+    }
+
+}
 
 void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
     bool solved = false;
@@ -52,6 +197,7 @@ void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
     vector<vector<int>> playerPoses = {{pRow, pCol}};
 
     vector<Map> copiedMaps;
+    copiedMaps.push_back(map);
 
     for (int i = 0; i < map.map.size(); i++) {
         for (int j = 0; j < map.map[i].size(); j++) {
@@ -62,149 +208,162 @@ void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
     cout << endl << "----------------------" << endl;
 
     int k = 0;
-    while (k < 5) {
+    while (k < 10 || !solved) {
+        AltPaths(pRow, pCol, copiedMaps, solved);
 
-        cout << playerPoses.size() << endl;
+        if (solved) {
+            map = copiedMaps[0];
+            break;
+        }
 
-        vector<vector<int>> newPlayerPoses;
+        vector<Map> tmpMaps = copiedMaps;
+        copiedMaps.clear();
 
-        for (int i = 0; i < playerPoses.size(); i++) {
-
-            vector<vector<int>> incremented = Incrementor(
-                playerPoses[i][0], playerPoses[i][1], copiedMaps);
-
-            for (int j = 0; j < incremented.size(); j++) {
-                bool contains = false;
-                for (int l = 0; l < newPlayerPoses.size(); l++) {
-                    if(newPlayerPoses[l] == incremented[j]) {
-                        contains = true;
-                        break;
-                    }
-                }
-
-                if (!contains) {
-                    newPlayerPoses.push_back(incremented[j]);
+        for (int i = 0; i < tmpMaps.size(); i++) {
+            bool contains = false;
+            for (int j = 0; j < copiedMaps.size(); j++) {
+                if (copiedMaps[j].playerPos == tmpMaps[i].playerPos){
+                    contains = true;
                 }
             }
-
-            cout << playerPoses[i][0] << ' ' << playerPoses[i][1] << endl;
-
-            for (int j = 0; j < incremented.size(); j++) {
-                cout << incremented[j][0] << ' ' << incremented[j][1] << endl;
+            if (!contains) {
+                copiedMaps.push_back(tmpMaps[i]);
             }
+        }
 
-            cout << "    0 1 2 3 4 5 6 7 8" << endl;
-            cout << "    * * * * * * * * *" << endl;
-            for (int i = 0; i < map.map.size(); i++) {
-                cout << i << " - ";
-                for (int j = 0; j < map.map[i].size(); j++) {
-                    cout << map.map[i][j] << " ";
+        cout << copiedMaps.size() << endl;
+
+        for (int i = 0; i < copiedMaps.size(); i++) {
+
+            cout << endl;
+
+            cout << endl;
+
+            for (int k = 0; k < copiedMaps[i].map.size(); k++) {
+                for (int j = 0; j < copiedMaps[i].map[i].size(); j++) {
+                    cout << copiedMaps[i].map[k][j] << " ";
                 }
                 cout << endl;
             }
             cout << endl;
         }
-
-        playerPoses = newPlayerPoses;
-
-        for (int j = 0; j < playerPoses.size(); j++) {
-            cout << playerPoses[j][0] << ' ' << playerPoses[j][1] << endl;
-        }
-
-        cout << "----------------------" << endl;
-
-
+        cout << endl << "----------------------" << endl;
 
         k++;
 
     }
-}
 
-vector<vector<int>> Incrementor(int row, int col, vector<Map>& copiedMaps) {
-    vector<vector<int>> list;
+    cout << endl << endl;
 
-    for (int i = 0; i < copiedMaps.size(); i++) {
-        Map map = copiedMaps[i];
-
-
-        map.map[row][col] = 0;
-
-        // Up
-        if (map.map[row - 1][col] == 0) {
-            if(map.map[row - 2][col] == 3) {
-                cout << "Solved" << endl;
-            }
-
-            map.map[row - 1][col] =  map.map[row - 1][col] + 5;
-            map.map[row - 2][col] = 2;
-
-            std::vector<int> newList;
-            newList.push_back(row - 2);
-            newList.push_back(col);
-
-            list.push_back(newList);
+    for (int i = 0; i < map.map.size(); i++) {
+        for (int j = 0; j < map.map[i].size(); j++) {
+            cout << map.map[i][j] << " ";
         }
+        cout << endl;
+    }
 
-        // Down
-        if (map.map[row + 1][col] == 0) {
-            if(map.map[row + 2][col] == 3) {
-                cout << "Solved" << endl;
-            }
+    cout << endl << "-------------------------------------------------" << endl;
 
-            map.map[row + 1][col] =  map.map[row + 1][col] + 5;
-            map.map[row + 2][col] = 2;
-
-            std::vector<int> newList;
-            newList.push_back(row + 2);
-            newList.push_back(col);
-
-            list.push_back(newList);
+    for (int i = 0; i < map.directions.size(); i++) {
+        string direction;
+        switch (map.directions[i]) {
+            case 1:
+                direction = "Up";
+                break;
+            case 2:
+                direction = "Down";
+                break;
+            case 3:
+                direction = "Right";
+                break;
+            case 4:
+                direction = "Left";
+                break;
         }
-
-        // Right
-        if (map.map[row][col + 1] == 0) {
-            if(map.map[row][col + 2] == 3) {
-                cout << "Solved" << endl;
-            }
-
-            map.map[row][col + 1] =  map.map[row][col + 1] + 5;
-            map.map[row][col + 2] = 2;
-
-            std::vector<int> newList;
-            newList.push_back(row);
-            newList.push_back(col + 2);
-
-            list.push_back(newList);
-        }
-
-        // Left
-        if (map.map[row][col - 1] == 0) {
-            if(map.map[row][col - 2] == 3) {
-                cout << "Solved" << endl;
-            }
-
-            map.map[row][col - 1] =  map.map[row][col - 1] + 5;
-            map.map[row][col - 2] = 2;
-
-            std::vector<int> newList;
-            newList.push_back(row);
-            newList.push_back(col - 2);
-
-            list.push_back(newList);
+        cout << direction;
+        if (i < map.directions.size() -1 ) {
+            cout << " - ";
         }
     }
-    return list;
+    cout << endl;
 }
 
-
 void maze(int pRow, int pCol, int tRow, int tCol) {
-    Map map1 = Map(pRow,pCol,tRow,tCol);
+    Map map = Map(pRow,pCol,tRow,tCol);
 
+    Pathfinder(pRow, pCol, tRow, tCol, map);
+}
 
-    Pathfinder(pRow, pCol, tRow, tCol, map1);
+void startMaze() {
+
+    int pRow, pCol, tRow, tCol;
+
+    cout << "Please enter your row number: ";
+    cin >> pRow;
+    cout << endl;
+
+    cout << "Please enter your column number: ";
+    cin >> pCol;
+    cout << endl;
+
+    cout << "Please enter target's row number: ";
+    cin >> tRow;
+    cout << endl;
+
+    cout << "Please enter target's column number: ";
+    cin >> tCol;
+    cout << endl;
+
+    maze(pRow,pCol,tRow,tCol);
 }
 
 int main() {
-    maze(1,1,1,2);
+
+    cout << "1: Maze" << endl;
+    int gameIndex;
+    cout << "Select a game: ";
+    cin >> gameIndex;
+    cout << endl;
+
+    if (gameIndex == 1) {
+        int map1[2][2] = {{2, 1}, {3, 6}};
+
+        int sign1Row, sign1Col, sign2Row, sign2Col;
+
+        cout << "Please enter first sign's row number: ";
+        cin >> sign1Row;
+        cout << endl;
+
+        cout << "Please enter second sign's column number: ";
+        cin >> sign1Col;
+        cout << endl;
+
+        cout << "Please enter second sign's row number: ";
+        cin >> sign2Row;
+        cout << endl;
+
+        cout << "Please enter second sign's column number: ";
+        cin >> sign2Col;
+        cout << endl;
+
+        if (sign1Row == map1[0][0] && sign1Col == map1[0][1] &&
+            sign2Row == map1[1][0] && sign2Col == map1[1][1]) {
+            cout << "Map found!" << endl << endl;
+            startMaze();
+        }
+        else if(sign1Row == map1[1][0] && sign1Col == map1[1][1] &&
+            sign2Row == map1[0][0] && sign2Col == map1[0][1]) {
+            cout << "Map found!" << endl << endl;
+            startMaze();
+        }
+        else {
+            cout << "Map doesn't exist!" << endl;
+            return 0;
+        }
+    }
+    else {
+        cout << "Game Not Found!" << endl;
+    }
+
     return 0;
 }
