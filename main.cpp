@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
 #include "basicWire.h"
+#include "button.h"
 #include "maze.h"
 
 
@@ -9,17 +9,20 @@ using namespace std;
 
 int main() {
 
-    cout << "1: Maze" << endl << "2: Basic Wire" << endl;
+    cout << "1: Basic Wire" << endl << "2: Button" << endl << "10 : Maze" << endl;
     int gameIndex;
     cout << "Select a game: ";
     cin >> gameIndex;
     cout << endl;
 
     if (gameIndex == 1) {
-        startMaze();
+        startBasicWire();
     }
     else if(gameIndex == 2) {
-        startBasicWire();
+        startButton();
+    }
+    else if (gameIndex == 10) {
+        startMaze();
     }
     else {
         cout << "Game Not Found!" << endl;
