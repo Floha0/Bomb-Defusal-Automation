@@ -12,4 +12,6 @@ add_executable(BombManual main.cpp
         keypad.cpp
         keypad.h
         simonSays.cpp
-        simonSays.h)
+        simonSays.h
+        whosFirst.h
+        whosFirst.cpp)

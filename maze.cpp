@@ -59,12 +59,6 @@ public:
 };
 
 void AltPaths(int row, int col, vector<Map>& copiedMaps, bool& solved) {
-    /*
-    * Incrementorda yapılacaklar:
-    * yol açıksa player pos'un yerini değiştirip mapi bir listeye kaydetcek
-    * sonda her liste elemanı için for loop ile parametredeki map listesine map eklenecek
-    */
-
     vector<Map> newMaps;
 
     for (int i = 0; i < copiedMaps.size(); i++) {
@@ -207,7 +201,7 @@ void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
     cout << endl << "----------------------" << endl;
 
     int k = 0;
-    while (k < 10 || !solved) {
+    while (k < 15 || !solved) {
         AltPaths(pRow, pCol, copiedMaps, solved);
 
         if (solved) {
@@ -234,9 +228,7 @@ void Pathfinder(int pRow, int pCol, int tRow, int tCol, Map& map) {
 
         for (int i = 0; i < copiedMaps.size(); i++) {
 
-            cout << endl;
-
-            cout << endl;
+            cout << endl << endl;
 
             for (int k = 0; k < copiedMaps[i].map.size(); k++) {
                 for (int j = 0; j < copiedMaps[i].map[i].size(); j++) {

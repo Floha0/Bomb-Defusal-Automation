@@ -4,6 +4,7 @@
 #include "maze.h"
 #include "keypad.h"
 #include "simonSays.h"
+#include "whosFirst.h"
 
 
 using namespace std;
@@ -12,7 +13,7 @@ using namespace std;
 int main() {
 
     cout << "1: Basic Wire" << endl << "2: Button" << endl << "3: Keypad" << endl;
-    cout << "4: Simon Says" << endl;
+    cout << "4: Simon Says" << endl << "5: Who's First" << endl;
     cout << "10 : Maze" << endl;
     int gameIndex;
     cout << "Select a game: ";
@@ -33,6 +34,9 @@ int main() {
         case 4:
             startSimonSays();
             break;
+        case 5:
+            startWhosFirst();
+        break;
         case 10:
             startMaze();
             break;
