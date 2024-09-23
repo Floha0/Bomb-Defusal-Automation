@@ -10,4 +10,6 @@ add_executable(BombManual main.cpp
         button.h
         button.cpp
         keypad.cpp
-        keypad.h)
+        keypad.h
+        simonSays.cpp
+        simonSays.h)
