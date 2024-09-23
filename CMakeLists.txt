@@ -3,15 +3,14 @@ project(BombManual)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(BombManual main.cpp
-        basicWire.cpp
-        maze.cpp
-        basicWire.h
-        button.h
-        button.cpp
-        keypad.cpp
-        keypad.h
-        simonSays.cpp
-        simonSays.h
-        whosFirst.h
-        whosFirst.cpp)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+
+add_executable(BombManual
+        src/main.cpp
+        src/basicWire.cpp
+        src/maze.cpp
+        src/button.cpp
+        src/keypad.cpp
+        src/simonSays.cpp
+        src/whosFirst.cpp)
