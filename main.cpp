@@ -2,6 +2,7 @@
 #include "basicWire.h"
 #include "button.h"
 #include "maze.h"
+#include "keypad.h"
 
 
 using namespace std;
@@ -9,7 +10,8 @@ using namespace std;
 
 int main() {
 
-    cout << "1: Basic Wire" << endl << "2: Button" << endl << "10 : Maze" << endl;
+    cout << "1: Basic Wire" << endl << "2: Button" << endl << "3: Keypad" << endl;
+    cout << "10 : Maze" << endl;
     int gameIndex;
     cout << "Select a game: ";
     cin >> gameIndex;
@@ -20,6 +22,9 @@ int main() {
     }
     else if(gameIndex == 2) {
         startButton();
+    }
+    else if(gameIndex == 3) {
+        startKeypad();
     }
     else if (gameIndex == 10) {
         startMaze();

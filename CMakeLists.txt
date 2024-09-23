@@ -8,4 +8,6 @@ add_executable(BombManual main.cpp
         maze.cpp
         basicWire.h
         button.h
-        button.cpp)
+        button.cpp
+        keypad.cpp
+        keypad.h)
