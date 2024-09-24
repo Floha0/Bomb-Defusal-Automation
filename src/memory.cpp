@@ -31,9 +31,6 @@ void startMemory() {
 
         k++;
     }
-
-    
-
 }
 
 int memoryElement(int stage, int number, vector<int> memory) {
