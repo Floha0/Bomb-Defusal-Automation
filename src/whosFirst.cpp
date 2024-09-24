@@ -1,7 +1,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "whosFirst.h"
+#include "../include/whosFirst.h"
 
 using namespace std;
 

@@ -1,10 +1,11 @@
 #include <iostream>
-#include "basicWire.h"
-#include "button.h"
-#include "maze.h"
-#include "keypad.h"
-#include "simonSays.h"
-#include "whosFirst.h"
+#include "../include/basicWire.h"
+#include "../include/button.h"
+#include "../include/maze.h"
+#include "../include/keypad.h"
+#include "../include/simonSays.h"
+#include "../include/whosFirst.h"
+#include "../include/memory.h"
 
 
 using namespace std;
@@ -13,7 +14,7 @@ using namespace std;
 int main() {
 
     cout << "1: Basic Wire" << endl << "2: Button" << endl << "3: Keypad" << endl;
-    cout << "4: Simon Says" << endl << "5: Who's First" << endl;
+    cout << "4: Simon Says" << endl << "5: Who's First" << endl << "6: Memory" << endl;
     cout << "10 : Maze" << endl;
     int gameIndex;
     cout << "Select a game: ";
@@ -36,7 +37,10 @@ int main() {
             break;
         case 5:
             startWhosFirst();
-        break;
+            break;
+        case 6:
+            startMemory();
+            break;
         case 10:
             startMaze();
             break;

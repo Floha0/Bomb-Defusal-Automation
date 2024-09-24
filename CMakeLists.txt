@@ -13,4 +13,6 @@ add_executable(BombManual
         src/button.cpp
         src/keypad.cpp
         src/simonSays.cpp
-        src/whosFirst.cpp)
+        src/whosFirst.cpp
+        src/memory.cpp
+        src/memory.h)

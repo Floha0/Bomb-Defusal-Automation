@@ -1,4 +1,5 @@
 #include <iostream>
+#include "../include/simonSays.h"
 
 using namespace std;
 

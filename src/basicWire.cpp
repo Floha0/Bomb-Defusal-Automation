@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "basicWire.h"
+#include "../include/basicWire.h"
 
 using namespace std;
 
