@@ -6,6 +6,8 @@
 #include "../include/simonSays.h"
 #include "../include/whosFirst.h"
 #include "../include/memory.h"
+#include "../include/morsCode.h"
+#include "../include/complicatedWires.h"
 
 
 using namespace std;
@@ -15,7 +17,8 @@ int main() {
 
     cout << "1: Basic Wire" << endl << "2: Button" << endl << "3: Keypad" << endl;
     cout << "4: Simon Says" << endl << "5: Who's First" << endl << "6: Memory" << endl;
-    cout << "10 : Maze" << endl;
+    cout << "7: Mors Code" << endl << "8: Complicated Wires" << endl;
+    cout << "10: Maze" << endl;
     int gameIndex;
     cout << "Select a game: ";
     cin >> gameIndex;
@@ -40,6 +43,12 @@ int main() {
             break;
         case 6:
             startMemory();
+            break;
+        case 7:
+            startMorsCode();
+            break;
+        case 8:
+            startComplicatedWires();
             break;
         case 10:
             startMaze();

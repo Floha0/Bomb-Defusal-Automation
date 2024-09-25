@@ -1,7 +1,6 @@
-#ifndef MAZE_H
-#define MAZE_H
+#ifndef BASICWIRE_H
+#define BASICWIRE_H
 
-// Declare the startMaze function
 void startBasicWire();
 
-#endif // MAZE_H
+#endif // BASICWIRE_H
