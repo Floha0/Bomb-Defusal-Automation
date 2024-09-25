@@ -16,4 +16,6 @@ add_executable(BombManual
         src/whosFirst.cpp
         src/memory.cpp
         src/morsCode.cpp
-        src/complicatedWires.cpp)
+        src/complicatedWires.cpp
+        src/wireSequences.cpp
+        include/wireSequences.h)
