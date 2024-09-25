@@ -10,6 +10,7 @@
 #include "../include/morsCode.h"
 #include "../include/complicatedWires.h"
 #include "../include/wireSequences.h"
+#include "../include/passwords.h"
 
 
 using namespace std;
@@ -20,7 +21,7 @@ int main() {
     cout << "1: Basic Wire" << endl << "2: Button" << endl << "3: Keypad" << endl;
     cout << "4: Simon Says" << endl << "5: Who's First" << endl << "6: Memory" << endl;
     cout << "7: Mors Code" << endl << "8: Complicated Wires" << endl;
-    cout << "9: Wire Sequences" << endl << "10: Maze" << endl;
+    cout << "9: Wire Sequences" << endl << "10: Maze" << endl << "11: Passwords" << endl;
     int gameIndex;
     cout << "Select a game: ";
     cin >> gameIndex;
@@ -57,6 +58,9 @@ int main() {
             break;
         case 10:
             startMaze();
+            break;
+        case 11:
+            startPasswords();
             break;
         default:
             cout << "Game Not Found!" << endl;

@@ -18,4 +18,4 @@ add_executable(BombManual
         src/morsCode.cpp
         src/complicatedWires.cpp
         src/wireSequences.cpp
-        include/wireSequences.h)
+        src/passwords.cpp)
